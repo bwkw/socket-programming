@@ -1,4 +1,4 @@
 udp-server:
-	gcc -o udp-server-description.out udp-server-description.c validate.c
+	gcc -o udp-server.out udp-server.c validate.c
 udp-client:
-	gcc -o udp-client-description.out udp-client-description.c validate.c
+	gcc -o udp-client.out udp-client.c validate.c
