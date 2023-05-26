@@ -6,7 +6,7 @@
 #include <sys/socket.h>  // ソケットプログラミング用の説明書
 #include <netinet/in.h>  // インターネットアドレス属性定義用の説明書
 #include <arpa/inet.h>   // インターネット操作を行う用の説明書
-#include "validate.h"
+#include "../validation/validate.h"
 
 #define MAX_BUF 65507  // 受信バッファのサイズを定義
 
