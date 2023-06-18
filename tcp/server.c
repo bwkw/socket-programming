@@ -11,24 +11,26 @@
 #define MAX_BUF 65507  // 受信バッファのサイズを定義
 
 int main(int argc, char *argv[]) {
-    char* SERVER_IP = "127.0.0.1";
-    int PORT = 12345;
-    parse_command_line_arguments(argc, argv, SERVER_IP, &PORT);
+    char* server_ip = "127.0.0.1";
+    int port = 12345;
+    parse_command_line_arguments(argc, argv, &server_ip, &port);
+    printf("Server IP: %s\n", server_ip);
+    printf("Server Port: %d\n", port);
 
     struct sockaddr_in server_addr, client_addr;
     memset(&server_addr, 0, sizeof(server_addr));
     memset(&client_addr, 0, sizeof(client_addr));
 
     server_addr.sin_family = AF_INET;
-    int result = inet_pton(AF_INET, SERVER_IP, &(server_addr.sin_addr));
+    int result = inet_pton(AF_INET, server_ip, &(server_addr.sin_addr));
     if (result == 0) {
-        fprintf(stderr, "Invalid IP address: %s\n", SERVER_IP);
+        fprintf(stderr, "Invalid IP address: %s\n", server_ip);
         exit(EXIT_FAILURE);
     } else if (result == -1) {
         perror("inet_pton failed");
         exit(EXIT_FAILURE);
     }
-    server_addr.sin_port = htons(PORT);
+    server_addr.sin_port = htons(port);
 
     int sockfd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (sockfd == -1) {

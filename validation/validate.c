@@ -23,15 +23,15 @@ int is_valid_port(const char *port_str) {
     return port > 0 && port <= 65535;
 }
 
-void parse_command_line_arguments(int argc, char* argv[], char* server_ip, int* port) {
+void parse_command_line_arguments(int argc, char* argv[], char** server_ip, int* port) {
     int opt;
 
     while ((opt = getopt(argc, argv, "a:p:")) != -1) {
         switch (opt) {
             case 'a':
-                server_ip = optarg;
-                if (!is_valid_ip_address(server_ip)) {
-                    fprintf(stderr, "Invalid IP address: %s\n", server_ip);
+                *server_ip = optarg;
+                if (!is_valid_ip_address(*server_ip)) {
+                    fprintf(stderr, "Invalid IP address: %s\n", *server_ip);
                     exit(EXIT_FAILURE);
                 }
                 break;
