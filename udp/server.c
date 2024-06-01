@@ -13,7 +13,9 @@
 int main(int argc, char *argv[]) {
     char* server_ip = "127.0.0.1";
     int port = 12345;
-    parse_command_line_arguments(argc, argv, server_ip, &port);
+    parse_command_line_arguments(argc, argv, &server_ip, &port);
+    printf("Server IP: %s\n", server_ip);
+    printf("Server Port: %d\n\n", port);
 
     // sockaddr_inは接続先のIPアドレスやポート番号の情報を保持するための構造体
     // 初期化時には値が適当に決定される
@@ -55,7 +57,7 @@ int main(int argc, char *argv[]) {
     // UNIX系のOSでは、新しいプロセスが作成されたときに0, 1, 2というファイルディスクリプタが自動的に開かれる
     // 基本的にはないが、標準入力などを閉じた場合に0が返される
     // -1, 0, 1, 2, 3(正常値)を返す
-    int sockfd; 
+    int sockfd;
     sockfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
     if (sockfd == -1) {
         perror("socket fd failed");
@@ -93,10 +95,10 @@ int main(int argc, char *argv[]) {
             exit(EXIT_FAILURE);
         }
 
-        buffer[receive_size] = '\0';  // 受信したメッセージの末尾にヌル文字（'\0'）を追加
         printf("The client port is %d\n", ntohs(client_addr.sin_port));
         printf("The client IP address is %s\n", inet_ntoa(client_addr.sin_addr));
-        printf("Received : %s\n", buffer); 
+        buffer[receive_size] = '\0';  // 受信したメッセージの末尾にヌル文字（'\0'）を追加
+        printf("Received : %s\n\n", buffer);
     }
 
     close(sockfd);  // ソケットのclose

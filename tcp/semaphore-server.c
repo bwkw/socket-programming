@@ -16,6 +16,8 @@ int main(int argc, char *argv[]) {
     char* server_ip = "127.0.0.1";
     int port = 12345;
     parse_command_line_arguments(argc, argv, &server_ip, &port);
+    printf("Server IP: %s\n", server_ip);
+    printf("Server Port: %d\n\n", port);
 
     struct sockaddr_in server_addr, client_addr;
     memset(&server_addr, 0, sizeof(server_addr));
@@ -98,16 +100,18 @@ int main(int argc, char *argv[]) {
                 // >0: 正常値
                 //  0: 読み取るデータがない場合(clientで^C)
                 // -1: 関数実行エラー
-                ssize_t receive_result = recv(connected_fd, buffer, sizeof(buffer) - 1, 0);  // 接続したソケットからデータを読み込む
-                if (receive_result > 0) {
-                    buffer[receive_result] = '\0';
-                    printf("Received: %s\n", buffer);
+                ssize_t receive_size = recv(connected_fd, buffer, sizeof(buffer) - 1, 0);  // 接続したソケットからデータを読み込む
+                if (receive_size > 0) {
+                    printf("The client port is %d\n", ntohs(client_addr.sin_port));
+                    printf("The client IP address is %s\n", inet_ntoa(client_addr.sin_addr));
+                    buffer[receive_size] = '\0';  // 受信したメッセージの末尾にヌル文字（'\0'）を追加
+                    printf("Received : %s\n", buffer);
                     if (strcmp(buffer, "finish\n") == 0) {
                         printf("Received finish command. Closing the connection.\n");
                         break;
                     }
-                } else if (receive_result == 0) {
-                    printf("Connection closed by the client.\n");
+                } else if (receive_size == 0) {
+                    printf("Connection closed by the client.\n\n");
                     break;
                 } else {
                     perror("recv failed");

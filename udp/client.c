@@ -11,7 +11,7 @@
 int main(int argc, char *argv[]) {
     char* server_ip = "127.0.0.1";
     int port = 12345;
-    parse_command_line_arguments(argc, argv, server_ip, &port);
+    parse_command_line_arguments(argc, argv, &server_ip, &port);
 
     struct sockaddr_in server_addr;
     memset(&server_addr, 0, sizeof(server_addr));
