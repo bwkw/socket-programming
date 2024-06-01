@@ -2,6 +2,13 @@
 Socket programming using C
 
 ## How to set up
+### all
+Build all server
+
+```
+$(~/socket-programming) make all
+```
+
 ### udp
 1. Build udp server
 
